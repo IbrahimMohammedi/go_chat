@@ -33,17 +33,19 @@ func (h *Handler) CreateUser(c *gin.Context) {
 }
 
 func (h *Handler) Login(c *gin.Context) {
-	var user LoginUserRes
+	var user LoginUserReq
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	u, err := h.Service.Login(c.Request.Context(), &user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.SetCookie("jwt", u.accessToken, 3600, "/", "localhost", false, true)
+
+	c.SetCookie("jwt", u.accessToken, 60*60*24, "/", "localhost", false, true)
 
 	res := &LoginUserRes{
 		Username: u.Username,
