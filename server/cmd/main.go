@@ -20,6 +20,8 @@ func main() {
 
 	hub := ws.NewHub()
 	wsHandler := ws.NewHandler(hub)
+	//run the Run() on a separate go routine using the key word go
+	go hub.Run()
 
 	router.InitRouter(userHandler, wsHandler)
 	router.Start("0.0.0.0:8080")

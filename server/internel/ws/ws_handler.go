@@ -66,4 +66,11 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 		RoomID:   roomID,
 		Username: username,
 	}
+
+	// Register function; registers a new client through the register channel
+	h.hub.Register <- cl
+	// Brodcast function; brodcasts the message
+	h.hub.Broadcast <- m
+	// writeMesssage()
+	// readMessage()
 }
