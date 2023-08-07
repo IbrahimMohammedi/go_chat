@@ -40,8 +40,8 @@ func (h *Hub) Run() {
 					//message:
 					if len(h.Rooms[cl.RoomID].Clients) != 0 {
 						h.Broadcast <- &Message{
-							Content: "A user left the room",
-							RoomID: cl.ID,
+							Content:  "A user left the room",
+							RoomID:   cl.ID,
 							Username: cl.Username,
 						}
 					}
@@ -51,10 +51,11 @@ func (h *Hub) Run() {
 				}
 			}
 		case m := <-h.Broadcast:
-			if _, ok := h.Rooms[cl.RoomID]; ok {
+			if _, ok := h.Rooms[m.RoomID]; ok {
 				for _, cl := range h.Rooms[m.RoomID].Clients {
 					cl.Message <- m
 				}
+			}
 		}
 	}
 }
