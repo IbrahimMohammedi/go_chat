@@ -74,6 +74,8 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 	h.hub.Register <- cl
 	// Brodcast function; brodcasts the message
 	h.hub.Broadcast <- m
-	// writeMesssage()
+	// writeMesssage() seprate go routine
+	go cl.writeMesssage()
 	// readMessage()
+	cl.readMessage(h.hub)
 }
