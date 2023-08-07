@@ -52,6 +52,9 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	roomID := c.Param("roomID")
+	clientID := c.Query("userID")
+	username := c.Query("username")
 
 	cl := &Client{
 		Conn:     conn,
